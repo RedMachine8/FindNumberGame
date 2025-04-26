@@ -1,24 +1,18 @@
-.game-container {
-    width: 800px;
-    margin: 0 auto;
-    padding: 20px;
+body {
+   background-color: rgb(64, 169, 231); 
 }
 
-.game-field {
-    width: 100%;
-    height: 600px;
-    background: #f0f0f0;
-    position: relative;
-}
-
-.controls {
-    margin-top: 20px;
+.header {
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    margin-bottom: 20px;
 }
 
-.start-btn {
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
+#time, #level, #score, #bonus {
+    color: white;
+    background: #333;
+    border-radius: 5px;
+    padding: 5px 10px;
 }
