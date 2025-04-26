@@ -8,11 +8,6 @@ body {
     align-items: center;
     padding: 10px;
     margin-bottom: 20px;
-}
-
-#time, #level, #score, #bonus {
-    color: white;
-    background: #333;
+    background-color: rgb(137, 203, 241);
     border-radius: 5px;
-    padding: 5px 10px;
 }
