@@ -6,16 +6,18 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="header">
+    <header class="header">
         <div id="time">00:00</div>
         <div>Уровень: <span id="level">1</span>-9</div>
-        <div>Очки <span id="score">0</span></div>
-        <div>Бонус <span id="bonus">1</span></div>
-    </div>
-
-    <div class="numbers" id="numbersContainer">
-
-    </div>
+        <div>Очки: <span id="score">0</span></div>
+        <div>Бонус: x<span id="bonus">1</span></div>
+    </header>
+    <main class="container">
+        <div class="target-number">
+            <p class="number-text">Найдите указанное число: <span id="target-number"></span></p>
+        </div>
+        <div class="numbersContainer" id="numbers"></div>
+    </main>
     <script src="script.js"></script>
 </body>
 </html>
