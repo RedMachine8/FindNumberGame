@@ -25,12 +25,29 @@ body {
     margin: 60px auto;
     text-align: center;
     height: 100px;
-    width: 800px;
+    width: 600px;
     border-radius: 5px;
     box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.5);
 }
 
 .number-text {
     font-size: 1.5em;
+    font-weight: 800;
+}
+
+.numbersContainer {
+    display: grid;
+    width: 800px;
+    margin: 0 auto;
+    gap: 20px;
+    grid-template-columns: repeat(3, auto);
+    grid-template-rows: repeat(3, 60px);
+}
+
+.number {
+    display: block;
+    text-align: center;
+    padding: 30px auto;
+    font-size: 2em;
     font-weight: 800;
 }
