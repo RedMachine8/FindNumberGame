@@ -41,7 +41,7 @@ body {
     margin: 0 auto;
     gap: 20px;
     grid-template-columns: repeat(3, auto);
-    grid-template-rows: repeat(3, 60px);
+    grid-template-rows: repeat(3, 120px);
 }
 
 .number {
@@ -50,4 +50,6 @@ body {
     padding: 30px auto;
     font-size: 2em;
     font-weight: 800;
+    box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.5);
+    cursor: pointer;
 }
