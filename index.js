@@ -1,20 +1,22 @@
 class FindNumberGame {
-    timeInterval = 0;
+    timeInterval = 59;
     constructor() {
         this.timeDisplay = document.getElementById('time');
         this.levelDisplay = document.getElementById('level');
         this.scoreDisplay = document.getElementById('score');
         this.bonusDisplay = document.getElementById('bonus');
         this.tableNumbers = document.getElementById('numbers');
+        this.resultPopUp = document.getElementById('popupResult');
+        this.buttonRestart = document.getElementById('buttonRestart');
         this.numbers = [];
         this.targetNumber = document.getElementById('target-number');
         this.startTime = 59;
     }
 
-    generateNumbers() {
+    generateNumbers(count) {
         this.targetNumber.textContent = Math.floor(Math.random() * 999) + 1;
         let number = 0;
-        for(let i = 0; i<8; i++) {
+        for(let i = 0; i<count; i++) {
             this.numbers.push(Math.floor(Math.random() * 999) + 1);
         }
         this.numbers.push(this.targetNumber.textContent);
@@ -29,9 +31,11 @@ class FindNumberGame {
         return array;
     }
 
-    createGrid() {
+    createGrid(row, col) {
         const color = ['red', 'orange', 'gold', 'blue', 'yellowgreen','green', 'purple', 'deeppink', 'darkgreen'];
         this.tableNumbers.innerHTML = '';
+        this.tableNumbers.style.gridTemplateRows = `repeat(${row}, 120px)`;
+        this.tableNumbers.style.gridTemplateColumns = `repeat(${col}, auto)`;
         this.numbers.forEach(num => {
              const cell = document.createElement('div');
              cell.textContent = num;
@@ -51,21 +55,37 @@ class FindNumberGame {
         } else {
             this.levelDisplay.textContent = parseInt(this.levelDisplay.textContent) + 1;
             this.bonusDisplay.textContent = parseInt(this.bonusDisplay.textContent) - 1;
-            this.scoreDisplay.textContent = parseInt(this.scoreDisplay.textContent) - 15;
             this.nextLevel();
         }
     }
     
     nextLevel() {
-        this.numbers = [];
-        this.generateNumbers();
-        this.createGrid();
+        if(parseInt(this.levelDisplay.textContent) <= 9) {
+            this.numbers = [];
+            if(parseInt(this.levelDisplay.textContent) >= 1 && parseInt(this.levelDisplay.textContent) <= 4) {
+                this.generateNumbers(8);
+                this.createGrid(3, 3);
+            }
+            if(parseInt(this.levelDisplay.textContent) >= 5 && parseInt(this.levelDisplay.textContent) <= 6) {
+                this.generateNumbers(11);
+                this.createGrid(4 , 3);
+            }
+            if(parseInt(this.levelDisplay.textContent) >= 7 && parseInt(this.levelDisplay.textContent) <= 9) {
+                this.generateNumbers(14);
+                this.createGrid(3, 5);
+            }
+        } else {
+            this.resultPopUp.style.visibility = 'visible';
+        }
     }
 
     updateTimer() {
-        const timer = parseInt(this.timeDisplay.textContent); 
-        const hhTimer = new Date(timer * 1000).toISOString().slice(14, 19);
+        let hhTimer = new Date(this.startTime * 1000).toISOString().slice(14, 19);
         this.timeDisplay.textContent = hhTimer;
+        if(this.startTime === 0) {
+            this.resultPopUp.style.visibility = 'visible';
+
+        }
         this.startTime--;
     }
 
@@ -73,8 +93,23 @@ class FindNumberGame {
         this.levelDisplay.textContent = 1;
         this.bonusDisplay.textContent = 1;
         this.scoreDisplay.textContent = 0;
-        this.generateNumbers();
-        this.createGrid();
+        this.timeDisplay.textContent = '00:59';
+        this.startTime = 59;
+        this.generateNumbers(8);
+        this.createGrid(3, 3);
+        this.timeInterval = setInterval(this.updateTimer, 1000);
+    }
+    restartGame() {
+        clearInterval(this.timeInterval);
+        this.result.style.visibility = 'collapse';
+        this.numbers = [];
+        this.levelDisplay.textContent = 1;
+        this.bonusDisplay.textContent = 1;
+        this.scoreDisplay.textContent = 0;
+        this.timeDisplay.textContent = '00:59';
+        this.startTime = 59;
+        this.generateNumbers(8);
+        this.createGrid(3, 3);
         this.timeInterval = setInterval(this.updateTimer, 1000);
     }
 }
