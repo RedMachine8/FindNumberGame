@@ -1,5 +1,4 @@
 class FindNumberGame {
-    timeInterval = 59;
     constructor() {
         this.timeDisplay = document.getElementById('time');
         this.levelDisplay = document.getElementById('level');
@@ -9,13 +8,12 @@ class FindNumberGame {
         this.resultPopUp = document.getElementById('popupResult');
         this.buttonRestart = document.getElementById('buttonRestart');
         this.numbers = [];
-        this.targetNumber = document.getElementById('target-number');
         this.startTime = 59;
+        this.targetNumber = document.getElementById('target-number');
     }
 
     generateNumbers(count) {
         this.targetNumber.textContent = Math.floor(Math.random() * 999) + 1;
-        let number = 0;
         for(let i = 0; i<count; i++) {
             this.numbers.push(Math.floor(Math.random() * 999) + 1);
         }
@@ -68,7 +66,7 @@ class FindNumberGame {
             }
             if(parseInt(this.levelDisplay.textContent) >= 5 && parseInt(this.levelDisplay.textContent) <= 6) {
                 this.generateNumbers(11);
-                this.createGrid(4 , 3);
+                this.createGrid(3 , 4);
             }
             if(parseInt(this.levelDisplay.textContent) >= 7 && parseInt(this.levelDisplay.textContent) <= 9) {
                 this.generateNumbers(14);
@@ -76,37 +74,36 @@ class FindNumberGame {
             }
         } else {
             this.resultPopUp.style.visibility = 'visible';
+            this.buttonRestart.addEventListener('click', () => this.restartGame());
         }
     }
 
     updateTimer() {
-        let hhTimer = new Date(this.startTime * 1000).toISOString().slice(14, 19);
-        this.timeDisplay.textContent = hhTimer;
-        if(this.startTime === 0) {
-            this.resultPopUp.style.visibility = 'visible';
-
+        let hhTimer = new Date(newGame.startTime * 1000).toISOString().slice(14, 19);
+        newGame.timeDisplay.textContent = hhTimer;
+        if(newGame.startTime === 0) {
+            newGame.resultPopUp.style.visibility = 'visible';
+            newGame.buttonRestart.addEventListener('click', () => newGame.restartGame());
+            clearInterval(newGame.timeInterval);
         }
-        this.startTime--;
+        newGame.startTime--;
     }
 
     startGame() {
         this.levelDisplay.textContent = 1;
         this.bonusDisplay.textContent = 1;
         this.scoreDisplay.textContent = 0;
-        this.timeDisplay.textContent = '00:59';
-        this.startTime = 59;
         this.generateNumbers(8);
         this.createGrid(3, 3);
         this.timeInterval = setInterval(this.updateTimer, 1000);
     }
     restartGame() {
         clearInterval(this.timeInterval);
-        this.result.style.visibility = 'collapse';
+        this.resultPopUp.style.visibility = 'collapse';
         this.numbers = [];
         this.levelDisplay.textContent = 1;
         this.bonusDisplay.textContent = 1;
         this.scoreDisplay.textContent = 0;
-        this.timeDisplay.textContent = '00:59';
         this.startTime = 59;
         this.generateNumbers(8);
         this.createGrid(3, 3);
