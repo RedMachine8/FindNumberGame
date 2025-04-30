@@ -42,6 +42,7 @@ class FindNumberGame {
              cell.addEventListener('click', () => this.checkNumber(num));
              this.tableNumbers.appendChild(cell);
         });
+        
     }
 
     checkNumber(clickedNum) {
