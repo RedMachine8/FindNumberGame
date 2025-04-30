@@ -42,7 +42,7 @@ body {
     gap: 20px;
 }
 
-.number {
+.numberBox {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -52,13 +52,13 @@ body {
     cursor: pointer;
 }
 
-.number:hover {
+.numberBox:hover {
     box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.5);
 }
 
 .popup {
     position: fixed;
-    visibility: collapse;
+    display: none;
     top: 35%;
     left: 35%;
     width: 300px;
@@ -68,5 +68,43 @@ body {
     padding: 20px;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    z-index: 1000; /* Убедитесь, что z-index выше, чем у других элементов */
+    z-index: 1000;
+    font-weight: 800;
+    font-size: 1.5em;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+@keyframes tilt-shake {
+    0% { transform: rotate(0deg); }
+    25% { transform: rotate(5deg); }
+    50% { transform: rotate(0deg); }
+    75% { transform: rotate(-5deg); }
+    100% { transform: rotate(0deg); }
+}
+
+#buttonRestart {
+    padding: 16px 32px;
+    width: auto;
+    height: auto;
+    
+    font-size: 16px;
+    color: #fff;
+    font-family: 'Roboto', sans-serif;
+
+    background-color: rgb(64, 169, 231);
+    border: none;
+    border-radius: 5px;
+
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    
+    transition: all 0.3s ease;
+    
+    display: inline-block;
+    margin: 10px;
+}
+
+#buttonRestart:active {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
