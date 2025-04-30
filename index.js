@@ -7,6 +7,7 @@ class FindNumberGame {
         this.tableNumbers = document.getElementById('numbers');
         this.resultPopUp = document.getElementById('popupResult');
         this.buttonRestart = document.getElementById('buttonRestart');
+        this.result = document.getElementById('result');
         this.numbers = [];
         this.startTime = 59;
         this.targetNumber = document.getElementById('target-number');
@@ -35,31 +36,48 @@ class FindNumberGame {
         this.tableNumbers.style.gridTemplateRows = `repeat(${row}, 120px)`;
         this.tableNumbers.style.gridTemplateColumns = `repeat(${col}, auto)`;
         this.numbers.forEach(num => {
-             const cell = document.createElement('div');
-             cell.textContent = num;
-             cell.className = 'number';
-             cell.style.backgroundColor = `${color[Math.floor(Math.random() * 9)]}`;
-             cell.addEventListener('click', () => this.checkNumber(num));
-             this.tableNumbers.appendChild(cell);
+             const cellDiv = document.createElement('div');
+             const cellP = document.createElement('p');
+             cellP.textContent = num;
+             cellDiv.className = 'numberBox';
+             if(parseInt(this.levelDisplay.textContent) > 4) {
+                const randomBool = Math.random() < 0.75;
+                if(randomBool) {
+                    cellDiv.style.animation = 'tilt-shake 0.3s linear infinite';
+                }
+             }
+             if(parseInt(this.levelDisplay.textContent) > 7) {
+                const randomBool = Math.random() < 0.75;
+                if(randomBool) {
+                    cellP.style.animation = 'tilt-shake 0.3s linear infinite';
+                }
+             }
+             cellDiv.style.backgroundColor = `${color[Math.floor(Math.random() * 9)]}`;
+             cellDiv.addEventListener('click', () => this.checkNumber(num));
+             cellDiv.appendChild(cellP);
+             this.tableNumbers.appendChild(cellDiv);
         });
-        
     }
 
     checkNumber(clickedNum) {
         if(clickedNum === this.targetNumber.textContent) {
-            this.levelDisplay.textContent = parseInt(this.levelDisplay.textContent) + 1;
-            this.bonusDisplay.textContent = parseInt(this.bonusDisplay.textContent) + 1;
+            if(parseInt(this.levelDisplay.textContent) < 9)
+                this.levelDisplay.textContent = parseInt(this.levelDisplay.textContent) + 1;
+            if(parseInt(this.bonusDisplay.textContent) < 4)
+                this.bonusDisplay.textContent = parseInt(this.bonusDisplay.textContent) + 1;
             this.scoreDisplay.textContent = parseInt(this.scoreDisplay.textContent) +  (15 * parseInt(this.bonusDisplay.textContent));
             this.nextLevel(); 
         } else {
-            this.levelDisplay.textContent = parseInt(this.levelDisplay.textContent) + 1;
-            this.bonusDisplay.textContent = parseInt(this.bonusDisplay.textContent) - 1;
+            if(parseInt(this.levelDisplay.textContent) <= 9)
+                this.levelDisplay.textContent = parseInt(this.levelDisplay.textContent) + 1;
+            if(parseInt(this.bonusDisplay.textContent) > 1)
+                this.bonusDisplay.textContent = parseInt(this.bonusDisplay.textContent) - 1;
             this.nextLevel();
         }
     }
     
     nextLevel() {
-        if(parseInt(this.levelDisplay.textContent) <= 9) {
+        if(parseInt(this.levelDisplay.textContent) < 9) {
             this.numbers = [];
             if(parseInt(this.levelDisplay.textContent) >= 1 && parseInt(this.levelDisplay.textContent) <= 4) {
                 this.generateNumbers(8);
@@ -74,8 +92,10 @@ class FindNumberGame {
                 this.createGrid(3, 5);
             }
         } else {
-            this.resultPopUp.style.visibility = 'visible';
+            this.resultPopUp.style.display = 'flex';
+            this.result.textContent = parseInt(this.scoreDisplay.textContent);
             this.buttonRestart.addEventListener('click', () => this.restartGame());
+            clearInterval(this.timeInterval);
         }
     }
 
@@ -83,7 +103,8 @@ class FindNumberGame {
         let hhTimer = new Date(newGame.startTime * 1000).toISOString().slice(14, 19);
         newGame.timeDisplay.textContent = hhTimer;
         if(newGame.startTime === 0) {
-            newGame.resultPopUp.style.visibility = 'visible';
+            newGame.resultPopUp.style.display = 'flex';
+            newGame.result.textContent = parseInt(newGame.scoreDisplay.textContent);
             newGame.buttonRestart.addEventListener('click', () => newGame.restartGame());
             clearInterval(newGame.timeInterval);
         }
@@ -100,7 +121,7 @@ class FindNumberGame {
     }
     restartGame() {
         clearInterval(this.timeInterval);
-        this.resultPopUp.style.visibility = 'collapse';
+        this.resultPopUp.style.display = 'none';
         this.numbers = [];
         this.levelDisplay.textContent = 1;
         this.bonusDisplay.textContent = 1;
