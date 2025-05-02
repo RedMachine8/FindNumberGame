@@ -9,7 +9,6 @@ class FindNumberGame {
         this.buttonRestart = document.getElementById('buttonRestart');
         this.result = document.getElementById('result');
         this.numbers = [];
-        this.startTime = 59;
         this.targetNumber = document.getElementById('target-number');
     }
 
